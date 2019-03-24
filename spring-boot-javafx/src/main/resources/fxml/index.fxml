@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.socbb.controller.IndexController"
+           prefHeight="400.0" prefWidth="600.0">
+
+
+
+    <VBox spacing="10" minHeight="-Infinity">
+        <JFXToolbar fx:id="toolbar" style="-fx-background-color: #FFFFFF">
+            <rightItems>
+                <JFXButton fx:id="button" text="登陆"/>
+            </rightItems>
+        </JFXToolbar>
+        <HBox spacing="20" style="-fx-padding: 0 0 0 50;">
+            <VBox spacing="20">
+                <Label styleClass="title-label">出发地：</Label>
+                <JFXComboBox fx:id="sLocationComboBox" id="sLocationComboBox" prefWidth="180" promptText="请选择"/>
+            </VBox>
+            <VBox spacing="20">
+                <Label styleClass="title-label">目的地：</Label>
+                <JFXComboBox fx:id="eLocationComboBox" id="eLocationComboBox" prefWidth="180" promptText="请选择"/>
+            </VBox>
+            <VBox spacing="20">
+                <Label styleClass="title-label">出发日期：</Label>
+                <JFXDatePicker fx:id="startDatePiker" prefWidth="200"/>
+            </VBox>
+        </HBox>
+        <HBox alignment="CENTER">
+            <Label styleClass="title-label">列表</Label>
+            <Label styleClass="title-label" fx:id="editableTreeTableViewCount"/>
+            <StackPane HBox.hgrow="ALWAYS">
+                <StackPane StackPane.alignment="CENTER_RIGHT" maxWidth="200">
+                    <JFXButton fx:id="searchBtn" text="查询"/>
+                </StackPane>
+            </StackPane>
+        </HBox>
+        <TableView fx:id="tableView"/>
+    </VBox>
+
+</StackPane>
