@@ -15,10 +15,10 @@
 *.iws
 *.iml
 *.ipr
-/target/
-/out/
-/logs/
-/log/
+target/
+out/
+logs/
+log/
 
 ### NetBeans ###
 /nbproject/private/
@@ -27,6 +27,7 @@
 /nbdist/
 /.nb-gradle/
 /build/
+
 
 ### VS Code ###
 .vscode/
