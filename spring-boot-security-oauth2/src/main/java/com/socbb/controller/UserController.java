@@ -18,6 +18,7 @@ public class UserController {
     public String user() {
         return "user list";
     }
+
     @PreAuthorize("hasAuthority('sys:user:delete')")
     @DeleteMapping("/delete")
     public String delete() {

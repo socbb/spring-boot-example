@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import javax.sql.DataSource;
 
 /**
- * 认证中心
+ * 认证服务配置
  * create by socbb on 2019/3/23 20:54.
  */
 @Configuration
@@ -32,6 +32,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     AuthenticationManager authenticationManager;
 
+    /**
+     * redis
+     */
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
@@ -41,17 +44,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * 使用数据库存储
+     * 客户端详情
      *
      * @param clients
      * @throws Exception
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // 内存存储
 //        clients.inMemory().withClient("system").secret(bCryptPasswordEncoder.encode("system"))
 //                .authorizedGrantTypes("password", "authorization_code", "refresh_token").scopes("app")
 //                .accessTokenValiditySeconds(3600);
 
+        // 数据库存储
         clients.jdbc(dataSource);
     }
 
@@ -61,7 +66,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore tokenStore() {
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        // 2018.08.04添加,解决同一username每次登陆access_token都相同的问题
+        // 解决同一username每次登陆access_token都相同的问题
 //        redisTokenStore.setAuthenticationKeyGenerator(new RandomAuthenticationKeyGenerator());
 
         return redisTokenStore;

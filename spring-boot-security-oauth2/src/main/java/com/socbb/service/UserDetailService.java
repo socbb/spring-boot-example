@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
         LoginAppUser loginAppUser = userService.findByUsername(username);
         if (loginAppUser == null) {
             throw new AuthenticationCredentialsNotFoundException("用户不存在");
-        } else if (loginAppUser.getStatus() == 1) {
+        } else if (!loginAppUser.isEnabled()) {
             throw new DisabledException("用户已作废");
         }
         return loginAppUser;

@@ -25,7 +25,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
                 .antMatchers(PermitAllUrl.permitAllUrl()).permitAll() // 放开权限的url
-                .anyRequest().authenticated();
+                .anyRequest().authenticated();// 拦截所有请求
     }
 
     /**

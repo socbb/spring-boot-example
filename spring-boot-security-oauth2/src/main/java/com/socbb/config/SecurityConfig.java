@@ -11,14 +11,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
+ * SecurityConfig 配置
  * create by socbb on 2019/3/23 21:04.
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)// 支持方法级别访问控制 @PreAuthorize @PostAuthorize
+@EnableGlobalMethodSecurity(prePostEnabled = true)// 开启支持方法级别访问控制 @PreAuthorize @PostAuthorize标签
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -26,6 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * 加密方式
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     /**
      * 全局用户信息<br>
@@ -57,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(PermitAllUrl.permitAllUrl()).permitAll() // 放开权限的url
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated().and()// 拦截所有请求
                 .httpBasic().and().csrf().disable();
     }
 }

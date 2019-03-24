@@ -1,6 +1,6 @@
 logging:
   level:
-    root: debug
+    root: info
     org.springframework: DEBUG
 spring:
   redis:
@@ -15,7 +15,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL55Dialect
+        dialect: org.hibernate.dialect.MySQL55Dialect   # 自动建表使用innodb方式
         format_sql: true
     open-in-view: true
   jackson:

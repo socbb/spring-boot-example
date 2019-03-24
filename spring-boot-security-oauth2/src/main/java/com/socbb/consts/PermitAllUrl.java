@@ -7,17 +7,13 @@ import java.util.Set;
 /**
  * 需要放开权限的url
  *
- * @author 小威老师
  */
 public final class PermitAllUrl {
 
     /**
      * 监控中心和swagger需要访问的url
      */
-    private static final String[] ENDPOINTS = {"/actuator/health", "/actuator/env", "/actuator/metrics/**", "/actuator/trace", "/actuator/dump",
-            "/actuator/jolokia", "/actuator/info", "/actuator/logfile", "/actuator/refresh", "/actuator/flyway", "/actuator/liquibase",
-            "/actuator/heapdump", "/actuator/loggers", "/actuator/auditevents", "/actuator/env/PID", "/actuator/jolokia/**",
-            "/v2/api-docs/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**"};
+    private static final String[] ENDPOINTS = {};
 
     /**
      * 需要放开权限的url
