@@ -1,0 +1,32 @@
+logging:
+  level:
+    root: debug
+    org.springframework: DEBUG
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 1
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+        format_sql: true
+    open-in-view: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-test-query: SELECT 1
