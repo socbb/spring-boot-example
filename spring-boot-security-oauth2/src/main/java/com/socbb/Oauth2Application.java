@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories
-@EntityScan("com.com.socbb.bean")
+@EntityScan("com.socbb.bean")
 @SpringBootApplication
 public class Oauth2Application {
 

@@ -24,7 +24,7 @@ public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "Snowflake-id")
-    @GenericGenerator(name = "Snowflake-id", strategy = "com.com.socbb.config.SnowflakeIDGenerator")
+    @GenericGenerator(name = "Snowflake-id", strategy = "com.socbb.config.SnowflakeIDGenerator")
     private Long id;
 
     @Column(name = "name")

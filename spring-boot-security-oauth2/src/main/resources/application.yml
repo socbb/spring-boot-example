@@ -1,7 +1,7 @@
 logging:
   level:
     root: info
-    org.springframework: DEBUG
+    com.socbb: debug
 spring:
   redis:
     host: 127.0.0.1
