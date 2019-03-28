@@ -34,6 +34,11 @@ public class User implements Serializable {
     private Integer status;
 
     /**
+     * 用户类型: 0=管理员, 1=普通用户
+     */
+    private Integer type;
+
+    /**
      * 用户对角色  一对多
      */
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE}, mappedBy = "user")

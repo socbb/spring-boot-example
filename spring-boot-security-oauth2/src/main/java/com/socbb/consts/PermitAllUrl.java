@@ -13,7 +13,7 @@ public final class PermitAllUrl {
     /**
      * 监控中心和swagger需要访问的url
      */
-    private static final String[] ENDPOINTS = {"/login"};
+    private static final String[] ENDPOINTS = {"/auth/login", "/auth/refresh_token", "/auth/logout"};
 
     /**
      * 需要放开权限的url
@@ -30,7 +30,7 @@ public final class PermitAllUrl {
         Collections.addAll(set, ENDPOINTS);
         Collections.addAll(set, urls);
 
-        return set.toArray(new String[set.size()]);
+        return set.toArray(new String[0]);
     }
 
 }

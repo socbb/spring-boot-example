@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 权限表
  * create by socbb on 2019/3/24 10:08.
  */
 @Getter
@@ -24,9 +25,33 @@ public class Permission implements Serializable {
     @GenericGenerator(name = "Snowflake-id", strategy = "com.socbb.config.SnowflakeIDGenerator")
     private Long id;
 
+    private String name;
+
+    /**
+     * 权限标识
+     */
     private String permission;
 
-    private String name;
+    private String path;
+
+    /**
+     * 用户权限匹配
+     */
+    private String url;
+
+    private String method;
+
+    /**
+     * 0 = 菜单
+     * 1 = 按钮
+     */
+    private Integer type;
+
+    /**
+     * 0 = 启用
+     * 1 = 禁用
+     */
+    private Integer status;
 
     @Column(name = "create_time")
     private Date createTIme;
