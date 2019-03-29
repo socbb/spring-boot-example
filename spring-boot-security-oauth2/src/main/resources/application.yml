@@ -14,7 +14,7 @@ spring:
     show-sql: true
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL55Dialect   # 自动建表使用innodb方式

@@ -1,14 +1,16 @@
 package com.socbb.config;
 
 import com.socbb.consts.PermitAllUrl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +23,32 @@ import javax.servlet.http.HttpServletRequest;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    @Autowired
+    private OAuth2WebSecurityExpressionHandler expressionHandler;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
                 .antMatchers(PermitAllUrl.permitAllUrl()).permitAll() // 放开权限的url
-                .anyRequest().authenticated();// 拦截所有请求
+                .anyRequest().access("@permissionService.hasPermission(request,authentication)");
+//                .anyRequest().authenticated();// 拦截所有请求
+    }
+
+    /**
+     * 解决错误: no bean resolver registered
+     * @param resources
+     * @throws Exception
+     */
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.expressionHandler(expressionHandler);
+    }
+
+    @Bean
+    public OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler(ApplicationContext applicationContext) {
+        OAuth2WebSecurityExpressionHandler expressionHandler = new OAuth2WebSecurityExpressionHandler();
+        expressionHandler.setApplicationContext(applicationContext);
+        return expressionHandler;
     }
 
     /**

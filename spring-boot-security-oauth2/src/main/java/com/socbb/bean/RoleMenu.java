@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "role_permission")
-public class RolePermission implements Serializable {
+@Table(name = "role_menu")
+public class RoleMenu implements Serializable {
 
     private static final long serialVersionUID = 4022740878023401455L;
 
@@ -25,7 +25,6 @@ public class RolePermission implements Serializable {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "permission_id", nullable = false)
-    private Permission permission;
-
+    @JoinColumn(name = "menu_id", nullable = false)
+    private Menu menu;
 }

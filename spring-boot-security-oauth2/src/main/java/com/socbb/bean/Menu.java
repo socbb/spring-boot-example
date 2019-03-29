@@ -6,7 +6,9 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 权限表
@@ -15,8 +17,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "permission")
-public class Permission implements Serializable {
+@Table(name = "menu")
+public class Menu implements Serializable {
 
     private static final long serialVersionUID = -4366456516829121540L;
 
@@ -25,7 +27,16 @@ public class Permission implements Serializable {
     @GenericGenerator(name = "Snowflake-id", strategy = "com.socbb.config.SnowflakeIDGenerator")
     private Long id;
 
+    /**
+     * 父级菜单
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Menu parent;
+
     private String name;
+
+    private String icon;
 
     /**
      * 权限标识
@@ -53,6 +64,13 @@ public class Permission implements Serializable {
      */
     private Integer status;
 
+    @Column(name = "f_sequence")
+    private Integer sequence;
+
     @Column(name = "create_time")
-    private Date createTIme;
+    private LocalDateTime createTIme;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    @OrderBy(value = "sequence asc, id asc")
+    private List<Menu> children = new ArrayList<>(0);
 }

@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)// 开启支持方法级别访问控制 @PreAuthorize @PostAuthorize标签
+//@EnableGlobalMethodSecurity(prePostEnabled = true)// 开启支持方法级别访问控制 @PreAuthorize @PostAuthorize标签
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

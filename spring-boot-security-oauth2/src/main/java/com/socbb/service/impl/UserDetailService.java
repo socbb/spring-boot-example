@@ -1,6 +1,7 @@
-package com.socbb.service;
+package com.socbb.service.impl;
 
 import com.socbb.bean.LoginAppUser;
+import com.socbb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.DisabledException;

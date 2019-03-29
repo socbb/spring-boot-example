@@ -1,8 +1,8 @@
 package com.socbb.service.impl;
 
-import com.socbb.bean.Permission;
+import com.socbb.bean.Menu;
 import com.socbb.consts.SecurityConst;
-import com.socbb.dao.PermissionDao;
+import com.socbb.dao.MenuDao;
 import com.socbb.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +22,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * create by socbb on 2019/3/28 14:40.
  */
 @Slf4j
-@Service("permissionService")
+@Component("permissionService")
 public class PermissionServiceImpl implements PermissionService {
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Autowired
-    private PermissionDao permissionDao;
+    private MenuDao permissionDao;
 
     /**
      * 鉴权接口
@@ -60,12 +60,12 @@ public class PermissionServiceImpl implements PermissionService {
 
         // 获取权限code
         if (!roleCodes.isEmpty()) {
-            List<Permission> permissions = permissionDao.findPermissionsByRoleCodes(roleCodes);
+            List<Menu> menus = permissionDao.findMenusByRoleCodes(roleCodes);
             // 权限校验
-            if (CollectionUtils.isNotEmpty(permissions)) {
-                permissions.stream().filter(permission -> StringUtils.isNotBlank(permission.getPath())
-                        && antPathMatcher.match(permission.getPath(), request.getRequestURI())
-                        && request.getMethod().equalsIgnoreCase(permission.getMethod())
+            if (CollectionUtils.isNotEmpty(menus)) {
+                menus.stream().filter(menu -> StringUtils.isNotBlank(menu.getPath())
+                        && antPathMatcher.match(menu.getPath(), request.getRequestURI())
+                        && request.getMethod().equalsIgnoreCase(menu.getMethod())
                 ).findFirst().ifPresent(permission -> hasPermission.set(true));
             }
         }

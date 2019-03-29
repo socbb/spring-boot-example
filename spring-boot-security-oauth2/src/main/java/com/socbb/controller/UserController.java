@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @PreAuthorize("hasAuthority('sys:user:list')")
+//    @PreAuthorize("hasAuthority('sys:user:list')")
     @GetMapping("/list")
     public String user() {
         return "user list";
     }
 
-    @PreAuthorize("hasAuthority('sys:user:delete')")
+//    @PreAuthorize("hasAuthority('sys:user:delete')")
     @DeleteMapping("/delete")
     public String delete() {
         return "user delete";
