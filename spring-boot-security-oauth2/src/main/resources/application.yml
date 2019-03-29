@@ -32,3 +32,10 @@ spring:
       minimum-idle: 5
       maximum-pool-size: 20
       connection-test-query: SELECT 1
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    prefix: classpath:/teamlates/
+    suffix: .html
+    servlet:
+      content-type: text/html

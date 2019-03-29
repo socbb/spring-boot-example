@@ -33,11 +33,6 @@ public class TokenController {
     @Value("${server.port}")
     private int post;
 
-    @GetMapping("index")
-    public String index() {
-        return "hello";
-    }
-
     @PostMapping("/login")
     public Map login(String username, String password) {
         StringJoiner joiner = new StringJoiner("&");
@@ -82,6 +77,6 @@ public class TokenController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             return "sucess";
         }
-            return "error";
+        return "error";
     }
 }
