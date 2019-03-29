@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * create by socbb on 2019/3/23 21:47.
@@ -38,11 +39,15 @@ public class User implements Serializable {
      */
     private Integer type;
 
-    /**
-     * 用户对角色  一对多
-     */
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE}, mappedBy = "user")
     private Set<UserRole> userRoles = new HashSet<>(0);
 
-
+    @Transient
+    public Set<Role> getRoles_() {
+        Set<UserRole> userRoles = getUserRoles();
+        if (userRoles == null) {
+            return new HashSet<>();
+        }
+        return userRoles.stream().map(UserRole::getRole).collect(Collectors.toSet());
+    }
 }

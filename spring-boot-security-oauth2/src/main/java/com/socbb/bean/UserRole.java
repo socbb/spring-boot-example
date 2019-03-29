@@ -1,6 +1,5 @@
 package com.socbb.bean;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,7 +33,7 @@ public class UserRole implements Serializable {
     /**
      * 多个用户角色关系对角色   多对一
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 

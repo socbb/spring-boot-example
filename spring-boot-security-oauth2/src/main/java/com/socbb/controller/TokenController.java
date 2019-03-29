@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -48,7 +49,12 @@ public class TokenController {
         parameters.put("username", username);
         parameters.put("password", password);
         parameters.forEach((k, v) -> joiner.add(k + "=" + v));
-        return restTemplate.postForObject(String.format("http://127.0.0.1:%d/oauth/token?%s", post, joiner.toString()), null, Map.class);
+        try {
+            return restTemplate.postForObject(String.format("http://127.0.0.1:%d/oauth/token?%s", post, joiner.toString()), null, Map.class);
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PostMapping("/refresh_token")

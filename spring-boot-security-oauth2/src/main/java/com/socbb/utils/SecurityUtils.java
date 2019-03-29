@@ -1,6 +1,6 @@
 package com.socbb.utils;
 
-import com.socbb.bean.LoginAppUser;
+import com.socbb.service.impl.UserDetailsImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -13,13 +13,13 @@ public class SecurityUtils {
      *
      * @return
      */
-    public static LoginAppUser getCurrentUser() {
+    public static UserDetailsImpl getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal == null) {
             return null;
         }
-        if (principal instanceof LoginAppUser) {
-            return (LoginAppUser) principal;
+        if (principal instanceof UserDetailsImpl) {
+            return (UserDetailsImpl) principal;
         }
         return null;
     }

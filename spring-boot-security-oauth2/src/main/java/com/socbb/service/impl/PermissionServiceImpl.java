@@ -1,7 +1,6 @@
 package com.socbb.service.impl;
 
 import com.socbb.bean.Menu;
-import com.socbb.consts.SecurityConst;
 import com.socbb.dao.MenuDao;
 import com.socbb.service.PermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -28,46 +29,34 @@ public class PermissionServiceImpl implements PermissionService {
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Autowired
-    private MenuDao permissionDao;
+    private MenuDao menuDao;
 
     /**
      * 鉴权接口
-     *
-     * @param request
-     * @param authentication
-     * @return
      */
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
-        AtomicBoolean hasPermission = new AtomicBoolean(false);
         Object principal = authentication.getPrincipal();
-        List<SimpleGrantedAuthority> grantedAuthorityList = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
-        if (principal == null) {
-            return false;
-        }
-        if (CollectionUtils.isEmpty(grantedAuthorityList)) {
-            log.warn("角色列表为空：{}", authentication.getPrincipal());
-            return false;
-        }
+        List<SimpleGrantedAuthority> authorityList = (List<SimpleGrantedAuthority>) authentication.getAuthorities();
+        AtomicBoolean hasPermission = new AtomicBoolean(false);
 
-        // 获取角色code
-        List<String> roleCodes = new ArrayList<>();
-        for (SimpleGrantedAuthority authority : grantedAuthorityList) {
-            if (!SecurityConst.BASE_ROLE.equalsIgnoreCase(authority.getAuthority()) && !SecurityConst.ROLE_ANONYMOUS.equalsIgnoreCase(authority.getAuthority())) {
-                roleCodes.add(authority.getAuthority());
+        if (principal != null) {
+            if (CollectionUtils.isEmpty(authorityList)) {
+                log.warn("角色列表为空：{}", authentication.getPrincipal());
+                return false;
             }
-        }
 
-        // 获取权限code
-        if (!roleCodes.isEmpty()) {
-            List<Menu> menus = permissionDao.findMenusByRoleCodes(roleCodes);
-            // 权限校验
-            if (CollectionUtils.isNotEmpty(menus)) {
-                menus.stream().filter(menu -> StringUtils.isNotBlank(menu.getPath())
-                        && antPathMatcher.match(menu.getPath(), request.getRequestURI())
-                        && request.getMethod().equalsIgnoreCase(menu.getMethod())
-                ).findFirst().ifPresent(permission -> hasPermission.set(true));
-            }
+            Set<Menu> urls = new HashSet<>();
+            authorityList.stream().filter(authority -> !StringUtils.equals(authority.getAuthority(), "ROLE_USER"))
+                    .forEach(authority -> {
+                        List<Menu> menuVOSet = menuDao.findMenusByRoleCodes(Collections.singletonList(authority.getAuthority()));
+                        CollectionUtils.addAll(urls, menuVOSet);
+                    });
+
+            urls.stream().filter(menu -> StringUtils.isNotBlank(menu.getUrl())
+                    && antPathMatcher.match(menu.getUrl(), request.getRequestURI())
+                    && request.getMethod().equalsIgnoreCase(menu.getMethod()))
+                    .findFirst().ifPresent(menuVO -> hasPermission.set(true));
         }
         return hasPermission.get();
     }

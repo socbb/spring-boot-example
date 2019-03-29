@@ -36,8 +36,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * 解决错误: no bean resolver registered
-     * @param resources
-     * @throws Exception
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
