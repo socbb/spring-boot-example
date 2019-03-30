@@ -13,7 +13,7 @@ public final class PermitAllUrl {
     /**
      * 监控中心和swagger需要访问的url
      */
-    private static final String[] ENDPOINTS = {"/auth/login", "/auth/refresh_token", "/auth/logout"};
+    private static final String[] ENDPOINTS = {"/authentication/require","/auth/login", "/auth/refresh_token", "/auth/logout"};
 
     /**
      * 需要放开权限的url

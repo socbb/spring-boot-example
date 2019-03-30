@@ -40,7 +40,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.allowFormAuthenticationForClients();// 允许表单认证
+        security.allowFormAuthenticationForClients().tokenKeyAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()");;// 允许表单认证
     }
 
     /**
